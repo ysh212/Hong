@@ -1,5 +1,9 @@
 package com.example.user.myapplication.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 /** by Hong Ji Hoon aka Hongvyo on github,
  *  Kim Eun Hye,
  *  Kim Min Ji,
@@ -12,4 +16,6 @@ package com.example.user.myapplication.domain;
  */
 
 public class Global {
+    public static TouristInfo touristInfo;
+    public static final List<TouristInfo> TOURIST_INFO_LIST = new ArrayList<TouristInfo>();
 }

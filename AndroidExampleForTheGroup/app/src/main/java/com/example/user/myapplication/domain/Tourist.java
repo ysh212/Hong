@@ -35,8 +35,9 @@ public class Tourist implements Serializable {
     // 위도?
     private double lon;
     // 경도?
+    // 이부분 바꿀 지도 몰라요
     private double lat;
-    // 언어 혹은 국적
+    // 언어
     private String lang;
     // 전화번호
     private String phonenum;
@@ -45,7 +46,6 @@ public class Tourist implements Serializable {
     // 핸폰 고유 번호
     private UUID uuid;
 
-    // 이부분 바꿀 지도 몰라요
     // 속도를 올릴려고 한건데 다른 자료형을 사용할수 있습니다.
     // 오피서의 핸드폰 고유 번호
     private UUID officer;

@@ -49,4 +49,14 @@ public class ListItemInteractor implements IListItemInteractor{
             //}
      //}).start();
     }
+
+    @Override
+    public void getUuid(uuidCallback callback) {
+        try{
+            callback.onUuid(touristService.onDutyItem());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

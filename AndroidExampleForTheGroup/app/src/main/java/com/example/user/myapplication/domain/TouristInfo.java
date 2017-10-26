@@ -10,7 +10,7 @@ import java.util.Date;
 public class TouristInfo implements Serializable{
     private Tourist tourist;
     private String address;
-    private Date requestTime;
+    private String requestTime;
     private String distance;
 
     public Tourist getTourist() {
@@ -29,11 +29,11 @@ public class TouristInfo implements Serializable{
         this.address = address;
     }
 
-    public Date getRequestTime() {
+    public String getRequestTime() {
         return requestTime;
     }
 
-    public void setRequestTime(Date requestTime) {
+    public void setRequestTime(String requestTime) {
         this.requestTime = requestTime;
     }
 

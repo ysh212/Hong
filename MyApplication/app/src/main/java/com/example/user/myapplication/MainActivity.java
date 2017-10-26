@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     private boolean m_bTrackingMode = true;
     private TMapGpsManager tmapgps = null;
     TMapPolyLine tMapPolyLine;
+    TMapPoint changePoint = null;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -100,26 +101,22 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             Thread thread = new Thread(r);
             thread.start();
 */
-
             tmapgps = new TMapGpsManager(MainActivity.this);
             tmapgps.setMinTime(1000);
             tmapgps.setMinDistance(5);
             tmapgps.setProvider(tmapgps.NETWORK_PROVIDER); //연결된 인터넷으로 현 위치를 받음, 실내일때 유용
             //gps로 현 위치를 잡음
             //tmapgps.setProvider(tmapgps.GPS_PROVIDER);
+            //위치 탐색을 시작
             tmapgps.OpenGps();
 
-            //final LocationDto locationDto = new LocationDto();
-            //locationDto.setLatitude(tmapview.getLatitude());
-            //locationDto.setLongitude(tmapview.getLongitude());
-
-            //textView6.setText(locationDto.toString());
             tmapview.setIconVisibility(true);
 
             //신고가 온 위치에 마커 표시
             //addMarker();
 
             //위치1 마커 - 서울역
+            /*
             final TMapPoint point1 = new TMapPoint(37.555107, 126.970691);
             TMapMarkerItem markerItem1 = new TMapMarkerItem();
             markerItem1.setTMapPoint(point1);
@@ -133,10 +130,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             markerItem2.setVisible(TMapMarkerItem.VISIBLE);
             //tmapview.addMarkerItem("marker2", markerItem2);
 
+
             list = new ArrayList<TMapMarkerItem>();
             list.add(0,markerItem1);
             list.add(1,markerItem2);
-
 
             //지도에 마커 추가
             for(int i =0; i<list.size(); i++){
@@ -148,30 +145,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             //double latSpan = list.get(0).getPositionX() - list.get(1).getPositionX();
             //double lonSpan = list.get(0).getPositionY() - list.get(1).getPositionY();
             //tmapview.zoomToSpan(latSpan, lonSpan);
+            */
 
-
-            Runnable r1 = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        tMapPolyLine = tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH,point1, point2, null, 0);
-
-                        Document doc = tMapData.findPathDataAll(point1, point2);
-                        String name = pasreXML(doc);
-                        textView7.setText(name);
-
-                        //tMapPolyLine.addLinePoint(point1);
-                        //tMapPolyLine.addLinePoint(point2);
-                        //locationDto.setDistance(tMapPolyLine.getDistance());
-                        //textView7.setText(locationDto.toString());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    tmapview.addTMapPath(tMapPolyLine);
-                }
-            };
-            Thread th = new Thread(r1);
-            th.start();
 
 
             //줌레벨
@@ -179,10 +154,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             tmapview.setMapType(TMapView.MAPTYPE_STANDARD);
             //현재보는 방향
             tmapview.setCompassMode(true);
-            //화면 중심을 단말의 현재위치로 이동시켜주는 트래핑 모드 설정
-            //tmapview.setTrackingMode(false);
-
-            //화면 중심을 단말의 현재위치로 이동
+            //화면 중심을 단말의 현재위치로 이동, 화면 중심을 단말의 현재위치로 이동시켜주는 트래핑 모드 설정
             tmapview.setTrackingMode(true);
             tmapview.setSightVisible(true);
         }
@@ -238,6 +210,38 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         if(m_bTrackingMode){
             tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
             tmapview.setCenterPoint(location.getLongitude(), location.getLatitude());
+            Double lon = location.getLongitude();
+            Double lat = location.getLatitude();
+            Log.d("lon", lon.toString());
+            changePoint = new TMapPoint(lat, lon);
+
+            Runnable r1 = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Log.d("current123", changePoint.toString());
+                        final TMapPoint point2 = new TMapPoint(37.259701, 127.078830);
+                        tMapPolyLine = tMapData.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, changePoint, point2, null, 0);
+
+                        Document doc = tMapData.findPathDataAll(changePoint, point2);
+                        String name = pasreXML(doc);
+                        //String lat = String.valueOf(point1.getLatitude());
+                        Log.d("name", name);
+
+                        textView7.setText(name);
+
+                        //tMapPolyLine.addLinePoint(point1);
+                        //tMapPolyLine.addLinePoint(point2);
+                        //locationDto.setDistance(tMapPolyLine.getDistance());
+                        //textView7.setText(locationDto.toString());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    tmapview.addTMapPath(tMapPolyLine);
+                }
+            };
+            Thread th = new Thread(r1);
+            th.start();
         }
     }
 

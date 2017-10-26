@@ -4,6 +4,7 @@ import com.example.user.myapplication.domain.Tourist;
 import com.example.user.myapplication.domain.TouristInfo;
 
 import java.util.List;
+import java.util.UUID;
 
 /** by Hong Ji Hoon aka Hongvyo on github,
  *  Kim Eun Hye,
@@ -27,4 +28,6 @@ interface ITouristService {
      * @return tourist 새로운 관광객 정보를 리턴합니다.
      */
     public List<TouristInfo> setupTourist();
+
+    public UUID onDutyItem();
 }

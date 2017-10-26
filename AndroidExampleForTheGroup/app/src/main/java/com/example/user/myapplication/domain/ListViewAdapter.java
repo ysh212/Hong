@@ -1,6 +1,7 @@
 package com.example.user.myapplication.domain;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.user.myapplication.R;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by USER on 2017-10-16.
@@ -69,11 +71,8 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         locationTextView.setText(touristInfo.getAddress());
-        /*
-            수정해야함 - distance
-         */
         distanceView.setText(touristInfo.getDistance());
-        requestTimeView.setText(touristInfo.getRequestTime().toString());
+        requestTimeView.setText(touristInfo.getRequestTime());
         langTextView.setText(touristInfo.getTourist().getLang());
 
         return convertView;
@@ -81,24 +80,30 @@ public class ListViewAdapter extends BaseAdapter {
 
     // 아이템 데이터 추가를 위한 함수.
     public void addItem(List<TouristInfo> touristInfo) {
-           /*
-            TouristInfo item = new TouristInfo();
-        String address = touristInfo.getAddress();
-        String distance = touristInfo.getDistance();
-        String lang = touristInfo.getTourist().getLang();
-        Date requestTime = touristInfo.getRequestTime();
-
-            item.setAddress(address);
-            item.setDistance(distance);
-            item.getTourist().setLang(lang);
-            item.setRequestTime(requestTime);
-*/
-        //listItemList.add(item);
         TouristInfo infoData;
         for(int i =0; i< touristInfo.size();i++) {
             infoData= touristInfo.get(i);
             listItemList.add(infoData);
+            Global.TOURIST_INFO_LIST.add(infoData);
         }
 
+    }
+
+    //리스트에 있는 아이템을 삭제하기 위한 함수
+    public void removeItem(UUID uuid){
+        int listLength = getCount();
+
+        Log.d("uuidValue12: ", uuid.toString());
+        int i ;
+
+        for(i =0 ; i<listLength; i++){
+            UUID uuidFromList =  listItemList.get(i).getTourist().getUuid();
+            Log.d("checkData", uuidFromList.toString());
+            if(uuid.toString().equals(uuidFromList.toString())){
+                listItemList.remove(i);
+                break;
+            }
+        }
+        Log.d("checkI", listItemList.size()+"");
     }
 }

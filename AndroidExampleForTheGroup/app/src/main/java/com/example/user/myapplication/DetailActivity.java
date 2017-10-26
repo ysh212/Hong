@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,10 +37,10 @@ import javax.xml.parsers.ParserConfigurationException;
 public class DetailActivity extends AppCompatActivity implements IDetailView{
 
     private Button checkBtn, cancelBtn;
-    TextView detailContents;
+    TextView detailContents, tv;
     Spinner spinner;
     TMapView tMapView;
-
+    Tourist tourist = new Tourist();
 
     private IDetailPresenter detailPresenter;
 
@@ -54,6 +55,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailView{
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         //ListItem 목록에서 선택된 항목에 대한 상세정보를 출력
         detailContents = (TextView) findViewById(R.id.detailContents);
+        tv = (TextView) findViewById(R.id.textView5);
 
         //자동차를 타고 갈지, 도보로 갈지 정함
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -110,6 +112,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailView{
         Intent intent = getIntent();
         TouristInfo touristInfo = (TouristInfo)intent.getSerializableExtra("selectedItem");
         detailContents.setText("주소: " + touristInfo.getAddress() + ", 거리: " + touristInfo.getDistance() + ", 언어: " + touristInfo.getTourist().getLang());
+        Log.d("tourist123: ", touristInfo.getTourist().toString());
     }
 
     @Override

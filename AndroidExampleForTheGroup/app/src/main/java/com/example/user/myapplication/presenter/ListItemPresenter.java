@@ -7,6 +7,7 @@ import com.example.user.myapplication.interactor.ListItemInteractor;
 import com.example.user.myapplication.view.IListItemView;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by USER on 2017-10-17.
@@ -15,7 +16,6 @@ import java.util.List;
 public class ListItemPresenter implements IListItemPresenter, IListItemInteractor.onSelectListener {
     IListItemView listItemView;
     IListItemInteractor listItemInteractor;
-
 
     public ListItemPresenter(IListItemView listItemView){
         this.listItemView = listItemView;
@@ -35,6 +35,7 @@ public class ListItemPresenter implements IListItemPresenter, IListItemInteracto
 
             @Override
             public void onfFail(Exception e) {
+                e.printStackTrace();
                 listItemView.showFail();
             }
         });
@@ -44,6 +45,16 @@ public class ListItemPresenter implements IListItemPresenter, IListItemInteracto
     @Override
     public void selectedItem(TouristInfo touristInfo) {
         listItemInteractor.nextActivity(touristInfo, this);
+    }
+
+    @Override
+    public void checkUuid() {
+        listItemInteractor.getUuid(new IListItemInteractor.uuidCallback() {
+            @Override
+            public void onUuid(UUID uuid) {
+                listItemView.deleteListItem(uuid );
+            }
+        });
     }
 
     @Override

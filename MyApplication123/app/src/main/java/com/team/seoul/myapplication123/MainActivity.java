@@ -9,10 +9,6 @@ import com.skp.Tmap.TMapData;
 import org.w3c.dom.Document;
 
 public class MainActivity extends AppCompatActivity {
-    TMapData tMapData;
-    //GpsInfo gpsInfo;
-    TmapClient tmapClient;
-    Document pathDocument;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

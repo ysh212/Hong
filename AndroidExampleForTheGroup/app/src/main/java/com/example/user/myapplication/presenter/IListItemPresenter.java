@@ -15,4 +15,6 @@ public interface IListItemPresenter {
 
     //View에서 선택된 아이템의 위치를 나타냄
     void selectedItem(TouristInfo touristInfo);
+
+    void checkUuid();
 }
